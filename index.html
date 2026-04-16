@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Porio Labs</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green: #00ff41;
+      --green-dim: #00b32c;
+      --green-dark: #003b0d;
+      --cyan: #00f0ff;
+      --bg: #0d0d0d;
+      --grid: #0a1a0a;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--green);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Matrix rain canvas */
+    #matrix {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      opacity: 0.18;
+    }
+
+    /* Scanlines overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Grid overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image:
+        linear-gradient(rgba(0,255,65,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,65,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .terminal-window {
+      border: 1px solid var(--green-dim);
+      border-radius: 4px;
+      max-width: 680px;
+      width: 100%;
+      box-shadow:
+        0 0 20px rgba(0,255,65,0.15),
+        0 0 60px rgba(0,255,65,0.05),
+        inset 0 0 30px rgba(0,0,0,0.5);
+      background: rgba(0, 10, 0, 0.85);
+      backdrop-filter: blur(4px);
+    }
+
+    .terminal-bar {
+      background: var(--green-dark);
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--green-dim);
+      border-radius: 4px 4px 0 0;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.red    { background: #ff5f57; }
+    .dot.yellow { background: #febc2e; }
+    .dot.green  { background: #28c840; }
+
+    .terminal-title {
+      flex: 1;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--green-dim);
+      letter-spacing: 0.15em;
+    }
+
+    .terminal-body {
+      padding: 2.5rem 2rem 2.5rem;
+    }
+
+    .prompt-line {
+      font-size: 0.75rem;
+      color: var(--green-dim);
+      text-align: left;
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+    }
+
+    .prompt-line span { color: var(--cyan); }
+
+    .logo {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: clamp(2rem, 8vw, 3.5rem);
+      letter-spacing: 0.1em;
+      color: var(--green);
+      text-shadow:
+        0 0 10px var(--green),
+        0 0 30px rgba(0,255,65,0.4),
+        0 0 60px rgba(0,255,65,0.15);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .logo-sub {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.6rem, 2vw, 0.85rem);
+      letter-spacing: 0.5em;
+      color: var(--cyan);
+      text-shadow: 0 0 10px var(--cyan);
+      margin-bottom: 2.5rem;
+      text-transform: uppercase;
+    }
+
+    .status-block {
+      border: 1px solid rgba(0,255,65,0.2);
+      border-left: 3px solid var(--green);
+      padding: 1rem 1.2rem;
+      margin-bottom: 2rem;
+      text-align: left;
+      background: rgba(0,255,65,0.03);
+    }
+
+    .status-label {
+      font-size: 0.65rem;
+      color: var(--green-dim);
+      letter-spacing: 0.2em;
+      margin-bottom: 0.4rem;
+    }
+
+    .status-text {
+      font-size: 1.1rem;
+      color: var(--green);
+      letter-spacing: 0.05em;
+    }
+
+    .status-text .blink {
+      animation: blink 1s step-end infinite;
+    }
+
+    .progress-section {
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .progress-label {
+      font-size: 0.65rem;
+      color: var(--green-dim);
+      letter-spacing: 0.2em;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-bar-outer {
+      height: 6px;
+      background: rgba(0,255,65,0.1);
+      border: 1px solid rgba(0,255,65,0.2);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 0.3rem;
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--green-dim), var(--green));
+      box-shadow: 0 0 8px var(--green);
+      border-radius: 2px;
+      animation: load 3s ease-out forwards;
+    }
+
+    @keyframes load {
+      0%   { width: 0%; }
+      60%  { width: 72%; }
+      100% { width: 72%; }
+    }
+
+    .progress-pct {
+      font-size: 0.65rem;
+      color: var(--green-dim);
+      text-align: right;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .info-item {
+      font-size: 0.7rem;
+      color: var(--green-dim);
+      letter-spacing: 0.03em;
+    }
+
+    .info-item span { color: var(--green); }
+
+    .footer-line {
+      font-size: 0.65rem;
+      color: rgba(0,255,65,0.3);
+      letter-spacing: 0.1em;
+      border-top: 1px solid rgba(0,255,65,0.1);
+      padding-top: 1.2rem;
+    }
+
+    .footer-line a {
+      color: var(--cyan);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .footer-line a:hover { opacity: 1; }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    .glitch {
+      position: relative;
+      animation: glitch-anim 6s infinite;
+    }
+
+    @keyframes glitch-anim {
+      0%   { text-shadow: 0 0 10px var(--green), 0 0 30px rgba(0,255,65,0.4); }
+      92%  { text-shadow: 0 0 10px var(--green), 0 0 30px rgba(0,255,65,0.4); }
+      93%  { text-shadow: -3px 0 var(--cyan), 3px 0 #ff00ff, 0 0 30px rgba(0,255,65,0.4); }
+      94%  { text-shadow: 0 0 10px var(--green), 0 0 30px rgba(0,255,65,0.4); }
+      96%  { text-shadow: 3px 0 var(--cyan), -3px 0 #ff00ff, 0 0 30px rgba(0,255,65,0.4); }
+      97%  { text-shadow: 0 0 10px var(--green), 0 0 30px rgba(0,255,65,0.4); }
+      100% { text-shadow: 0 0 10px var(--green), 0 0 30px rgba(0,255,65,0.4); }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+  <div class="terminal-window">
+    <div class="terminal-bar">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+      <div class="terminal-title">porio.dev — bash — 80×24</div>
+    </div>
+    <div class="terminal-body">
+
+      <div class="prompt-line">
+        <span>poriolabs@dev</span>:~$ ./launch_sequence.sh<br>
+        &gt; Initializing Porio Labs... <span style="color:var(--green)">OK</span>
+      </div>
+
+      <div class="logo glitch">PORIO</div>
+      <div class="logo-sub">L A B S</div>
+
+      <div class="status-block">
+        <div class="status-label">// SYSTEM STATUS</div>
+        <div class="status-text">UNDER CONSTRUCTION <span class="blink">█</span></div>
+      </div>
+
+      <div class="progress-section">
+        <div class="progress-label">// BUILD PROGRESS</div>
+        <div class="progress-bar-outer">
+          <div class="progress-bar-inner"></div>
+        </div>
+        <div class="progress-pct">72% — compiling...</div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item">STUDIO<br><span>Porio Labs</span></div>
+        <div class="info-item">STATUS<br><span>Building</span></div>
+        <div class="info-item">PLATFORM<br><span>Android / Steam</span></div>
+        <div class="info-item">ETA<br><span>2026</span></div>
+      </div>
+
+      <div class="footer-line">
+        © 2026 Porio Labs — <a href="mailto:poriolabs@gmail.com">poriolabs@gmail.com</a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Matrix rain
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ<>/{}[];=+-*&%$#@!';
+  const fontSize = 14;
+  let columns = Math.floor(canvas.width / fontSize);
+  let drops = Array(columns).fill(1);
+
+  function draw() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = '#00ff41';
+    ctx.font = fontSize + 'px Share Tech Mono, monospace';
+
+    columns = Math.floor(canvas.width / fontSize);
+    if (drops.length < columns) drops.push(...Array(columns - drops.length).fill(1));
+
+    for (let i = 0; i < columns; i++) {
+      const char = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillStyle = Math.random() > 0.95 ? '#00f0ff' : '#00ff41';
+      ctx.globalAlpha = Math.random() * 0.5 + 0.3;
+      ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  setInterval(draw, 50);
+</script>
+
+</body>
+</html>
