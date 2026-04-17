@@ -83,11 +83,19 @@
     .countdown-digits {
       font-family: 'Orbitron', monospace;
       font-weight: 900;
-      font-size: clamp(1.6rem, 6vw, 2.8rem);
+      font-size: clamp(1.2rem, 4.5vw, 2.2rem);
       letter-spacing: 0.05em;
       color: var(--green);
       text-shadow: 0 0 12px currentColor, 0 0 30px rgba(0,255,65,0.3);
       transition: color 1s, text-shadow 1s;
+    }
+
+    .countdown-ms {
+      font-family: 'Orbitron', monospace;
+      font-weight: 400;
+      font-size: clamp(0.7rem, 2vw, 1rem);
+      opacity: 0.6;
+      letter-spacing: 0.05em;
     }
 
     .countdown-units {
@@ -351,7 +359,7 @@
 
   <div class="countdown-wrap">
     <div class="countdown-label">// T-MINUS LAUNCH</div>
-    <div class="countdown-digits" id="countdown">--:--:--:--</div>
+    <div class="countdown-digits" id="countdown">--:--:--:--<span class="countdown-ms">.<span id="countdown-ms">--</span></span></div>
     <div class="countdown-units">
       <span>DAYS</span><span>HRS</span><span>MIN</span><span>SEC</span>
     </div>
@@ -404,15 +412,17 @@
   (function() {
     const launch  = new Date('2026-06-07T00:00:00');
     const el      = document.getElementById('countdown');
+    const elMs    = document.getElementById('countdown-ms');
 
-    function pad(n) { return String(n).padStart(2, '0'); }
+    function pad(n, d) { return String(n).padStart(d || 2, '0'); }
 
     function tick() {
       const now  = new Date();
       const diff = launch - now;
 
       if (diff <= 0) {
-        el.textContent = '00:00:00:00';
+        el.firstChild.textContent = '00:00:00:00';
+        elMs.textContent = '00';
         el.style.color = '#ff5f57';
         return;
       }
@@ -421,10 +431,11 @@
       const hrs  = Math.floor((diff % 86400000) / 3600000);
       const min  = Math.floor((diff % 3600000)  / 60000);
       const sec  = Math.floor((diff % 60000)    / 1000);
+      const ms   = Math.floor((diff % 1000)     / 10);
 
-      el.textContent = pad(days) + ':' + pad(hrs) + ':' + pad(min) + ':' + pad(sec);
+      el.firstChild.textContent = pad(days) + ':' + pad(hrs) + ':' + pad(min) + ':' + pad(sec);
+      elMs.textContent = pad(ms);
 
-      // Color shift: green > 60d, yellow 30-60d, red < 30d
       if (days >= 60) {
         el.style.color = '#00ff41';
         el.style.textShadow = '0 0 12px #00ff41, 0 0 30px rgba(0,255,65,0.3)';
@@ -438,7 +449,7 @@
     }
 
     tick();
-    setInterval(tick, 1000);
+    setInterval(tick, 50);
   })();
 
   // Dynamic launch progress — 100% on June 7, 2026
