@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nurse Bea — Política de Privacidad</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --green: #00ff41;
+      --green-dim: #00b32c;
+      --green-dark: #003b0d;
+      --cyan: #00f0ff;
+      --bg: #0d0d0d;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--green);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px
+      );
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .back-link {
+      display: inline-block;
+      font-size: 0.7rem;
+      color: var(--green-dim);
+      text-decoration: none;
+      letter-spacing: 0.15em;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--green); }
+
+    .terminal-window {
+      border: 1px solid var(--green-dim);
+      border-radius: 4px;
+      box-shadow: 0 0 20px rgba(0,255,65,0.15), inset 0 0 30px rgba(0,0,0,0.5);
+      background: rgba(0,10,0,0.9);
+    }
+
+    .terminal-bar {
+      background: var(--green-dark);
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--green-dim);
+      border-radius: 4px 4px 0 0;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.red    { background: #ff5f57; }
+    .dot.yellow { background: #febc2e; }
+    .dot.green  { background: #28c840; }
+
+    .terminal-title {
+      flex: 1;
+      text-align: center;
+      font-size: 0.7rem;
+      color: var(--green-dim);
+      letter-spacing: 0.15em;
+    }
+
+    .terminal-body {
+      padding: 2.5rem 2rem 3rem;
+    }
+
+    .prompt-line {
+      font-size: 0.75rem;
+      color: var(--green-dim);
+      margin-bottom: 2rem;
+      letter-spacing: 0.05em;
+    }
+    .prompt-line span { color: var(--cyan); }
+
+    h1 {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: clamp(1.4rem, 5vw, 2rem);
+      color: var(--green);
+      text-shadow: 0 0 10px var(--green), 0 0 30px rgba(0,255,65,0.3);
+      margin-bottom: 0.3rem;
+      letter-spacing: 0.08em;
+    }
+
+    .app-sub {
+      font-size: 0.75rem;
+      color: var(--cyan);
+      letter-spacing: 0.3em;
+      margin-bottom: 2.5rem;
+    }
+
+    .updated {
+      font-size: 0.65rem;
+      color: var(--green-dim);
+      letter-spacing: 0.1em;
+      margin-bottom: 2.5rem;
+      border-left: 3px solid var(--green-dim);
+      padding-left: 0.75rem;
+    }
+
+    .section {
+      margin-bottom: 2rem;
+      border: 1px solid rgba(0,255,65,0.15);
+      border-left: 3px solid var(--green);
+      padding: 1.2rem 1.4rem;
+      background: rgba(0,255,65,0.02);
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      color: var(--green-dim);
+      letter-spacing: 0.25em;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.85rem;
+      color: var(--green);
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    p {
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: rgba(0,255,65,0.85);
+      margin-bottom: 0.5rem;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0.5rem 0;
+    }
+
+    ul li {
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: rgba(0,255,65,0.85);
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    ul li::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--cyan);
+    }
+
+    .highlight { color: var(--cyan); }
+
+    .footer-line {
+      font-size: 0.65rem;
+      color: rgba(0,255,65,0.3);
+      letter-spacing: 0.1em;
+      border-top: 1px solid rgba(0,255,65,0.1);
+      padding-top: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .footer-line a {
+      color: var(--cyan);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+    .footer-line a:hover { opacity: 1; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <a class="back-link" href="https://porio.dev">← porio.dev</a>
+
+  <div class="terminal-window">
+    <div class="terminal-bar">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+      <div class="terminal-title">nurse-bea/privacy.md — read-only</div>
+    </div>
+    <div class="terminal-body">
+
+      <div class="prompt-line">
+        <span>poriolabs@dev</span>:~/nurse-bea$ cat privacy.md
+      </div>
+
+      <h1>NURSE BEA</h1>
+      <div class="app-sub">POLÍTICA DE PRIVACIDAD</div>
+
+      <div class="updated">// ÚLTIMA ACTUALIZACIÓN: ABRIL 2026</div>
+
+      <div class="section">
+        <div class="section-label">// 01</div>
+        <div class="section-title">INTRODUCCIÓN</div>
+        <p>Nurse Bea es una aplicación de cuidado de mascotas desarrollada por <span class="highlight">Porio Labs</span>. Esta política describe cómo manejamos la información dentro de la app.</p>
+        <p>Nurse Bea está diseñada con privacidad por defecto: <span class="highlight">todos los datos se almacenan únicamente en tu dispositivo</span> y nunca son enviados a servidores externos.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">// 02</div>
+        <div class="section-title">DATOS QUE ALMACENA LA APP</div>
+        <p>La app guarda localmente en tu dispositivo:</p>
+        <ul>
+          <li>Información de tu mascota (nombre, especie, raza, fecha de nacimiento, peso)</li>
+          <li>Foto de perfil de tu mascota (tomada o seleccionada por ti)</li>
+          <li>Tratamientos, medicamentos y dosis programadas</li>
+          <li>Citas veterinarias y recordatorios</li>
+          <li>Notas y bitácora de eventos</li>
+          <li>Información del propietario (nombre)</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <div class="section-label">// 03</div>
+        <div class="section-title">USO DE LOS DATOS</div>
+        <p>Los datos se usan exclusivamente para el funcionamiento de la app:</p>
+        <ul>
+          <li>Mostrar el perfil y el historial de tu mascota</li>
+          <li>Enviar notificaciones de medicamentos y citas</li>
+          <li>Generar reportes PDF de la bitácora</li>
+        </ul>
+        <p style="margin-top:0.8rem;"><span class="highlight">No recopilamos, transmitimos ni compartimos ningún dato con terceros.</span> No existe servidor, base de datos remota, ni cuenta de usuario.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">// 04</div>
+        <div class="section-title">PERMISOS QUE UTILIZA LA APP</div>
+        <ul>
+          <li><span class="highlight">CÁMARA</span> — para tomar la foto de perfil de tu mascota</li>
+          <li><span class="highlight">LEER IMÁGENES</span> — para seleccionar una foto de tu galería</li>
+          <li><span class="highlight">NOTIFICACIONES</span> — para recordatorios de medicamentos y citas</li>
+          <li><span class="highlight">ALARMAS EXACTAS</span> — para que los recordatorios lleguen a la hora precisa</li>
+          <li><span class="highlight">BOOT_COMPLETED</span> — para reprogramar alarmas tras reiniciar el dispositivo</li>
+        </ul>
+        <p style="margin-top:0.8rem;">Ninguno de estos permisos se usa para recopilar o transmitir información.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">// 05</div>
+        <div class="section-title">ALMACENAMIENTO Y SEGURIDAD</div>
+        <p>Todos los datos se almacenan en la base de datos privada del dispositivo (Room/SQLite). Los archivos PDF generados se guardan en el almacenamiento privado de la app.</p>
+        <p>Al desinstalar Nurse Bea, <span class="highlight">todos los datos se eliminan permanentemente</span> del dispositivo.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">// 06</div>
+        <div class="section-title">MENORES DE EDAD</div>
+        <p>Nurse Bea no está dirigida a menores de 13 años y no recopila información de menores de forma intencional.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">// 07</div>
+        <div class="section-title">CAMBIOS A ESTA POLÍTICA</div>
+        <p>Cualquier actualización a esta política se publicará en esta página. El uso continuado de la app después de los cambios implica la aceptación de la política actualizada.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-label">// 08</div>
+        <div class="section-title">CONTACTO</div>
+        <p>Si tienes preguntas sobre esta política de privacidad, puedes contactarnos en:</p>
+        <p style="margin-top:0.5rem;"><span class="highlight">poriolabs@gmail.com</span></p>
+      </div>
+
+      <div class="footer-line">
+        © 2026 Porio Labs — <a href="mailto:poriolabs@gmail.com">poriolabs@gmail.com</a> — <a href="https://porio.dev">porio.dev</a>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
