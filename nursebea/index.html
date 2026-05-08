@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nurse Bea — La salud de tu mascota, siempre organizada</title>
+<meta name="description" content="Medicamentos, citas y síntomas en un solo lugar. Exporta el historial completo para tu vet con un toque. Pre-regístrate gratis en Google Play.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --rosa-claro:#F9E4E4;
+  --rosa-medio:#F4B8C1;
+  --rosa-oscuro:#6B2D38;
+  --baby-blue:#C8E6F4;
+  --blue-dark:#1A4A5E;
+  --amber:#D47A3A;
+  --brown:#3D2314;
+  --cream:#FDF6F0;
+  --white:#FFFFFF;
+  --shadow-sm:0 2px 12px rgba(61,35,20,.08);
+  --shadow-md:0 8px 32px rgba(61,35,20,.12);
+  --radius-md:20px;
+  --radius-lg:32px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--cream);color:var(--brown);line-height:1.6;overflow-x:hidden}
+h1,h2,h3{font-family:'Fredoka',sans-serif;line-height:1.2}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+.container{width:100%;max-width:1100px;margin:0 auto;padding:0 24px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:50px;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:none;outline:none;transition:transform .2s,box-shadow .2s,background .2s;text-decoration:none;white-space:nowrap}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(61,35,20,.18)}
+.btn:active{transform:translateY(0)}
+.btn-primary{background:var(--rosa-oscuro);color:var(--white)}
+.btn-primary:hover{background:#7d3542}
+.btn-secondary{background:var(--white);color:var(--rosa-oscuro);border:2px solid var(--rosa-medio)}
+.btn-secondary:hover{background:var(--rosa-claro)}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(253,246,240,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(244,184,193,.4);padding:14px 0;transition:box-shadow .3s}
+nav.scrolled{box-shadow:0 4px 20px rgba(61,35,20,.1)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-icon{width:38px;height:38px;border-radius:10px;background:var(--rosa-medio);display:flex;align-items:center;justify-content:center;font-size:20px;overflow:hidden;flex-shrink:0}
+.nav-icon img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.nav-name{font-family:'Fredoka',sans-serif;font-size:22px;font-weight:700;color:var(--rosa-oscuro)}
+.nav-name em{color:var(--amber);font-style:normal}
+.nav-cta{font-size:14px;padding:10px 22px}
+
+/* HERO */
+#hero{background:var(--rosa-claro);padding:80px 0 64px;overflow:hidden;position:relative}
+#hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 80% 50%,rgba(244,184,193,.5) 0%,transparent 70%);pointer-events:none}
+.hero-inner{display:grid;grid-template-columns:1fr auto;align-items:center;gap:40px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--rosa-medio);color:var(--rosa-oscuro);padding:6px 14px;border-radius:50px;font-size:13px;font-weight:700;letter-spacing:.4px;margin-bottom:20px}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--rosa-oscuro);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.85)}}
+.hero-h1{font-size:clamp(32px,5vw,54px);font-weight:700;color:var(--brown);margin-bottom:18px}
+.hero-h1 .accent{color:var(--amber)}
+.hero-sub{font-size:clamp(16px,2vw,18px);color:#6b4a3a;max-width:520px;margin-bottom:36px;font-weight:400;line-height:1.7}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap}
+.hero-icon-wrap{width:clamp(140px,18vw,200px);height:clamp(140px,18vw,200px);border-radius:var(--radius-lg);background:white;box-shadow:var(--shadow-md);display:flex;align-items:center;justify-content:center;font-size:clamp(70px,10vw,100px);position:relative;animation:float 4s ease-in-out infinite}
+.hero-icon-wrap img{width:80%;height:80%;object-fit:contain;border-radius:var(--radius-md)}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-icon-badge{position:absolute;bottom:-10px;right:-10px;background:var(--amber);color:white;border-radius:50px;padding:5px 12px;font-size:12px;font-weight:700;box-shadow:0 4px 12px rgba(212,122,58,.35)}
+
+/* ORIGEN */
+#origen{background:var(--cream);padding:80px 0}
+.origen-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.section-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);margin-bottom:12px}
+.section-h2{font-size:clamp(26px,3.5vw,38px);font-weight:700;color:var(--brown);margin-bottom:20px}
+.origen-text{font-size:16px;line-height:1.8;color:#5a3a2c;margin-bottom:28px}
+.nonprofit-badge{display:inline-flex;align-items:center;gap:8px;background:#fff8e6;border:1.5px solid #f5c842;color:#7a5c00;border-radius:50px;padding:8px 18px;font-size:13px;font-weight:700}
+.violeta-card{background:white;border-radius:var(--radius-md);padding:32px;box-shadow:var(--shadow-md);text-align:center;max-width:320px;border:1.5px solid var(--rosa-medio)}
+.violeta-emoji{font-size:64px;margin-bottom:16px;display:block}
+.violeta-name{font-family:'Fredoka',sans-serif;font-size:24px;color:var(--rosa-oscuro);margin-bottom:6px}
+.violeta-sub{font-size:14px;color:#8a6a5a}
+
+/* FEATURES */
+#features{background:var(--baby-blue);padding:80px 0}
+.features-header{text-align:center;margin-bottom:48px}
+.features-header .section-tag{justify-content:center;color:var(--blue-dark)}
+.features-header .section-h2{color:var(--blue-dark)}
+.features-header p{color:#2a6a8e;font-size:16px;max-width:480px;margin:0 auto}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
+.feature-card{background:white;border-radius:var(--radius-md);padding:32px 24px;box-shadow:var(--shadow-sm);transition:transform .25s,box-shadow .25s;border:1.5px solid rgba(200,230,244,.6)}
+.feature-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md)}
+.feature-icon{font-size:36px;margin-bottom:16px;display:block}
+.feature-title{font-family:'Fredoka',sans-serif;font-size:20px;font-weight:600;color:var(--blue-dark);margin-bottom:10px}
+.feature-desc{font-size:14px;color:#5a7a88;line-height:1.6}
+
+/* PDF BANNER */
+#pdf-banner{background:var(--cream);padding:72px 0}
+.pdf-card{background:linear-gradient(135deg,var(--baby-blue) 0%,#a8d8f0 100%);border-radius:var(--radius-lg);padding:48px 56px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;box-shadow:0 12px 40px rgba(26,74,94,.15);position:relative;overflow:hidden}
+.pdf-card::after{content:'📄';position:absolute;right:48px;bottom:-20px;font-size:120px;opacity:.08;pointer-events:none;transform:rotate(-10deg)}
+.pdf-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(26,74,94,.12);color:var(--blue-dark);border-radius:50px;padding:5px 14px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px}
+.pdf-h2{font-size:clamp(22px,3vw,32px);color:var(--blue-dark);margin-bottom:12px}
+.pdf-desc{font-size:15px;color:#2a6a8e;line-height:1.7;max-width:480px}
+.pdf-mockup{background:white;border-radius:16px;padding:20px 24px;width:160px;box-shadow:0 8px 24px rgba(26,74,94,.15)}
+.pdf-mockup-header{height:14px;border-radius:4px;background:var(--blue-dark);margin-bottom:12px;width:70%}
+.pdf-mockup-row{height:10px;border-radius:4px;background:var(--baby-blue);margin-bottom:8px}
+.pdf-mockup-row:nth-child(3){width:80%}
+.pdf-mockup-row:nth-child(4){width:90%}
+.pdf-mockup-row:nth-child(5){width:60%}
+
+/* CTA FINAL */
+#cta-final{background:var(--brown);padding:96px 0;text-align:center;position:relative;overflow:hidden}
+#cta-final::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(244,184,193,.12) 0%,transparent 70%);pointer-events:none}
+.cta-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(244,184,193,.15);color:var(--rosa-medio);border-radius:50px;padding:5px 16px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px}
+#cta-final h2{font-size:clamp(30px,5vw,52px);color:white;margin-bottom:16px}
+#cta-final h2 .accent{color:var(--rosa-medio)}
+#cta-final .cta-sub{font-size:16px;color:rgba(255,255,255,.7);margin-bottom:40px;max-width:460px;margin-left:auto;margin-right:auto}
+.cta-final-btns{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+.cta-note{margin-top:24px;font-size:13px;color:rgba(255,255,255,.45);letter-spacing:.5px}
+.cta-note span{margin:0 8px;opacity:.4}
+
+/* FOOTER */
+footer{background:#2a1610;padding:40px 0;text-align:center}
+.footer-logo{font-family:'Fredoka',sans-serif;font-size:20px;color:var(--rosa-medio);margin-bottom:12px}
+.footer-logo em{color:var(--amber);font-style:normal}
+.footer-links{display:flex;justify-content:center;gap:24px;margin-bottom:16px;flex-wrap:wrap}
+.footer-links a{font-size:13px;color:rgba(255,255,255,.5);transition:color .2s}
+.footer-links a:hover{color:var(--rosa-medio)}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.25)}
+
+/* Animations */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+.fade-delay-1{transition-delay:.1s}
+.fade-delay-2{transition-delay:.2s}
+.fade-delay-3{transition-delay:.3s}
+.fade-delay-4{transition-delay:.4s}
+
+/* Responsive */
+@media(max-width:768px){
+  .hero-inner{grid-template-columns:1fr;text-align:center}
+  .hero-visual{display:none}
+  .hero-ctas{justify-content:center}
+  .hero-sub{margin-left:auto;margin-right:auto}
+  .origen-inner{grid-template-columns:1fr;gap:40px}
+  .origen-visual{order:-1}
+  .pdf-card{grid-template-columns:1fr;padding:36px 28px;text-align:center}
+  .pdf-card::after{display:none}
+  .pdf-visual{display:none}
+  .nav-cta{display:none}
+}
+@media(max-width:480px){
+  #hero{padding:60px 0 48px}
+  #origen,#features,#pdf-banner,#cta-final{padding:60px 0}
+  .features-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav" role="banner">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="Nurse Bea — inicio">
+        <div class="nav-icon" aria-hidden="true">
+          <img src="https://porio.dev/nursebea-icon.png" alt="Ícono de Nurse Bea">
+        </div>
+        <span class="nav-name">Nurse <em>Bea</em></span>
+      </a>
+      <a href="#cta-final" class="btn btn-primary nav-cta" aria-label="Pre-regístrate gratis en Google Play">
+        Pre-regístrate gratis
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" aria-labelledby="hero-heading">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-badge fade-in" aria-label="Beta disponible en Android">
+          <span class="dot" aria-hidden="true"></span>
+          Beta disponible en Android
+        </div>
+        <h1 class="hero-h1 fade-in fade-delay-1" id="hero-heading">
+          La salud de tu mascota,<br>
+          <span class="accent">siempre organizada</span>
+        </h1>
+        <p class="hero-sub fade-in fade-delay-2">
+          Medicamentos, citas y síntomas en un solo lugar.
+          Exporta el historial completo para tu vet con un toque.
+        </p>
+        <div class="hero-ctas fade-in fade-delay-3">
+          <a href="#" class="btn btn-primary" aria-label="Pre-regístrate en Google Play">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.18 23.76a2 2 0 0 1-.99-1.75V2c0-.72.38-1.36.99-1.75L14 12 3.18 23.76zm17.26-9.4-2.93 1.7L14 12l3.51-3.36 2.93 1.7a2 2 0 0 1 0 3.46v-.24zM4.66.6l11.28 6.52L13 12 4.66.6zm11.28 16.88L4.66 23.4 13 12l2.94 5.48z"/></svg>
+            Pre-regístrate en Google Play
+          </a>
+          <a href="https://instagram.com/nursebea.app" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" aria-label="Síguenos en Instagram @nursebea.app">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            Síguenos en Instagram
+          </a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-icon-wrap">
+          <img src="https://porio.dev/nursebea-icon.png" alt="Ícono de Nurse Bea">
+          <span class="hero-icon-badge">Android</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORIGEN -->
+<section id="origen" aria-labelledby="origen-heading">
+  <div class="container">
+    <div class="origen-inner">
+      <div>
+        <span class="section-tag fade-in">✨ Nuestra historia</span>
+        <h2 class="section-h2 fade-in fade-delay-1" id="origen-heading">Nació de una historia real</h2>
+        <p class="origen-text fade-in fade-delay-2">
+          Cuando Violeta, nuestra Beagle, fue diagnosticada con cáncer, nos dimos cuenta de que no había una forma sencilla de llevar el control de su tratamiento. Nurse Bea es la solución que hubiéramos querido tener desde el primer día.
+        </p>
+        <span class="nonprofit-badge fade-in fade-delay-3">💛 Proyecto sin fines de lucro</span>
+      </div>
+      <div class="origen-visual fade-in fade-delay-2">
+        <div class="violeta-card" role="figure" aria-label="Violeta, la Beagle que inspiró Nurse Bea">
+          <span class="violeta-emoji" aria-hidden="true">🐶</span>
+          <p class="violeta-name">Violeta</p>
+          <p class="violeta-sub">Beagle · La que inspiró todo 💕</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" aria-labelledby="features-heading">
+  <div class="container">
+    <div class="features-header">
+      <span class="section-tag fade-in">📱 Funciones</span>
+      <h2 class="section-h2 fade-in fade-delay-1" id="features-heading">Todo lo que tu mascota necesita</h2>
+      <p class="fade-in fade-delay-2">Diseñado para el momento más difícil, útil todos los días.</p>
+    </div>
+    <div class="features-grid" role="list">
+      <article class="feature-card fade-in" role="listitem">
+        <span class="feature-icon" aria-hidden="true">💊</span>
+        <h3 class="feature-title">Medicamentos</h3>
+        <p class="feature-desc">Registra dosis, frecuencia y duración. Nunca más dudes si ya le diste su medicamento.</p>
+      </article>
+      <article class="feature-card fade-in fade-delay-1" role="listitem">
+        <span class="feature-icon" aria-hidden="true">📅</span>
+        <h3 class="feature-title">Citas</h3>
+        <p class="feature-desc">Organiza consultas, revisiones y vacunas. Llega preparado con todo el historial al vet.</p>
+      </article>
+      <article class="feature-card fade-in fade-delay-2" role="listitem">
+        <span class="feature-icon" aria-hidden="true">📋</span>
+        <h3 class="feature-title">Síntomas</h3>
+        <p class="feature-desc">Lleva un registro de cómo se siente día a día. Detecta patrones antes de que empeoren.</p>
+      </article>
+      <article class="feature-card fade-in fade-delay-3" role="listitem">
+        <span class="feature-icon" aria-hidden="true">📝</span>
+        <h3 class="feature-title">Notas</h3>
+        <p class="feature-desc">Guarda todo lo que el vet te dijo, observaciones propias, reacciones a tratamientos.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PDF BANNER -->
+<section id="pdf-banner" aria-labelledby="pdf-heading">
+  <div class="container">
+    <div class="pdf-card">
+      <div class="pdf-content">
+        <span class="pdf-tag fade-in">📄 Exportación inteligente</span>
+        <h2 class="pdf-h2 fade-in fade-delay-1" id="pdf-heading">El historial completo,<br>listo para tu vet</h2>
+        <p class="pdf-desc fade-in fade-delay-2">
+          Genera un reporte PDF con medicamentos, síntomas y notas de un solo toque. Llega a cada consulta con toda la información que el vet necesita — sin buscar en WhatsApp ni tratar de recordar fechas.
+        </p>
+      </div>
+      <div class="pdf-visual fade-in fade-delay-2" aria-hidden="true">
+        <div class="pdf-mockup">
+          <div class="pdf-mockup-header"></div>
+          <div class="pdf-mockup-row"></div>
+          <div class="pdf-mockup-row"></div>
+          <div class="pdf-mockup-row"></div>
+          <div class="pdf-mockup-row"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="cta-final" aria-labelledby="cta-heading">
+  <div class="container">
+    <span class="cta-tag fade-in">🐾 Para ellos</span>
+    <h2 class="fade-in fade-delay-1" id="cta-heading">Tu amiguito<br><span class="accent">se lo merece</span></h2>
+    <p class="cta-sub fade-in fade-delay-2">Únete a la beta y sé de los primeros en tener Nurse Bea en tu Android.</p>
+    <div class="cta-final-btns fade-in fade-delay-3">
+      <a href="#" class="btn btn-primary" aria-label="Pre-regístrate en Google Play — gratis para siempre">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.18 23.76a2 2 0 0 1-.99-1.75V2c0-.72.38-1.36.99-1.75L14 12 3.18 23.76zm17.26-9.4-2.93 1.7L14 12l3.51-3.36 2.93 1.7a2 2 0 0 1 0 3.46v-.24zM4.66.6l11.28 6.52L13 12 4.66.6zm11.28 16.88L4.66 23.4 13 12l2.94 5.48z"/></svg>
+        Pre-regístrate en Google Play
+      </a>
+      <a href="https://instagram.com/nursebea.app" target="_blank" rel="noopener noreferrer" class="btn" style="background:rgba(255,255,255,.1);color:white;border:2px solid rgba(255,255,255,.2)" aria-label="Síguenos en Instagram @nursebea.app">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        @nursebea.app
+      </a>
+    </div>
+    <p class="cta-note fade-in fade-delay-4">
+      Gratis para siempre <span>·</span> Sin anuncios <span>·</span> Sin trucos
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <div class="container">
+    <p class="footer-logo">Nurse <em>Bea</em> 🐾</p>
+    <nav class="footer-links" aria-label="Links del footer">
+      <a href="https://instagram.com/nursebea.app" target="_blank" rel="noopener noreferrer">Instagram</a>
+      <a href="mailto:nursebea@porio.dev">nursebea@porio.dev</a>
+    </nav>
+    <p class="footer-copy">Hecho con amor en México 🇲🇽</p>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('main-nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+document.querySelectorAll('#hero .fade-in').forEach(el => {
+  setTimeout(() => el.classList.add('visible'), 100);
+});
+</script>
+</body>
+</html>
